@@ -1,53 +1,59 @@
-let menuIcon=document.querySelector('#menu-icon');
-let navbar=document.querySelector('.navbar');
+// Toggle Menu Icon and Navbar Active State
+const menuIcon = document.querySelector('#menu-icon');
+const navbar = document.querySelector('.navbar');
 
-menuIcon.onclick=()=>{
-    menuIcon.classList.toggle('bx-x');
-    navbar.classList.toggle('active');
+menuIcon.onclick = () => {
+    menuIcon.classList.toggle('bx-x'); // Toggle 'bx-x' class for menu icon
+    navbar.classList.toggle('active'); // Toggle 'active' class for navbar
 };
 
-
-let sections=document.querySelectorAll('section');
-let navLinks=document.querySelectorAll('header nav a');
+// Highlight Active Section in Navbar on Scroll
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('header nav a');
 
 window.onscroll = () => {
-    sections.forEach(sec => {
-        let top = window.scrollY;
-        let offset = sec.offsetTop - 150;
-        let height = sec.offsetHeight;
-        let id = sec.getAttribute('id');
+    let scrollTop = window.scrollY;
 
-        if(top >= offset && top < offset + height){
-            navLinks.forEach(links => {
-                links.classList.remove('active');
-                document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
-            });
-        };
+    sections.forEach(section => {
+        let sectionTop = section.offsetTop - 150; // Adjust offset for highlighting
+        let sectionHeight = section.offsetHeight;
+        let sectionId = section.getAttribute('id');
 
+        if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
+            // Remove 'active' class from all nav links and add it to the current section's link
+            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelector(`header nav a[href*="${sectionId}"]`).classList.add('active');
+        }
     });
-    let header=document.querySelector('header');
 
-    header.classList.toggle('sticky',window.screenY>100);
+    // Add 'sticky' class to header on scroll
+    const header = document.querySelector('header');
+    header.classList.toggle('sticky', scrollTop > 100);
+
+    // Close navbar menu when scrolling
     menuIcon.classList.remove('bx-x');
     navbar.classList.remove('active');
 };
 
+// Initialize ScrollReveal Animations
 ScrollReveal({
-    //reset:true,
-    distance:'80px',
-    duration:2000,
-    delay:200
+    distance: '80px',
+    duration: 2000,
+    delay: 200,
+    // reset: true, // Uncomment to make animations repeat on scroll
 });
 
-ScrollReveal().reveal('.home-content,.heading',{origin:'top'});
-ScrollReveal().reveal('.home-img,.services-container,.portfolio-box,.contact form',{origin:'bottom'});
-ScrollReveal().reveal('.home-content h1,.about-img',{origin:'left'});
-ScrollReveal().reveal('.home-content p,.about-content',{origin:'right'});
+// ScrollReveal configurations for different sections
+ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
+ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
+ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
+ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
 
-const typed = new Typed('.multiple-text',{
-    strings:['CSE Student at NMIT ','Frontend developer'],
-    typeSpeed:100,
-    backSpeed:100,
-    backDelay:1000,
-    loop:true
+// Initialize Typed.js for Typing Effect
+const typed = new Typed('.multiple-text', {
+    strings: ['CSE Student at NMIT', 'Frontend Developer'], // Strings to display
+    typeSpeed: 100, // Typing speed
+    backSpeed: 100, // Backspacing speed
+    backDelay: 1000, // Delay before typing restarts
+    loop: true // Loop the typing effect
 });
